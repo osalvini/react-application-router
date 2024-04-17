@@ -1,0 +1,21 @@
+{
+  "name": "react-application-router",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "server:start": "pm2 start index.js",
+    "server:stop": "pm2 stop index.js",
+    "server:restart": "pm2 restart all",
+    "server:status": "pm2 status"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2",
+    "http-proxy-middleware": "^3.0.0",
+    "nodemon": "^3.1.0",
+    "pm2": "^5.3.1"
+  }
+}
