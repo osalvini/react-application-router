@@ -16,7 +16,7 @@ const domain2Proxy = createProxyMiddleware({
 });
 
 app.use((req, res, next) => {
-    console.log('Request: ', req.hostname); // Log hostname to debug
+    console.log('Request: ', req.hostname);
     next();
 });
 
@@ -27,7 +27,7 @@ app.use((req, res, next) => {
     } else if (req.hostname === 'salonaboutbeauty.com') {
         return domain2Proxy(req, res, next);
     }
-    next(); // Continue in middleware chain, potentially to a 404 or other handler
+    next();
 });
 
 // Default route for unmatched domains
