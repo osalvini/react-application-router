@@ -3,16 +3,24 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 
 const app = express();
 
-// Proxy configuration for Biometric Barrier
+
+
+// Define the proxy rules
 const domain1Proxy = createProxyMiddleware({
     target: 'http://localhost:3000',
-    changeOrigin: true
+    changeOrigin: true,
+    router: (req) => {
+        return req.hostname === 'biometricbarrier.com' ? 'http://localhost:3000' : undefined;
+    }
 });
 
-// Proxy configuration for Salon About Beauty
 const domain2Proxy = createProxyMiddleware({
-    target: 'http://localhost:3001',
-    changeOrigin: true
+    target: 'http://localhost:3002',
+    changeOrigin: true,
+    router: (req) => {
+        return req.hostname === 'salonaboutbeauty.com' ? 'http://localhost:3002' : undefined;
+
+    }
 });
 
 app.use((req, res, next) => {
@@ -21,14 +29,8 @@ app.use((req, res, next) => {
 });
 
 // Use the proxies based on domain names
-app.use((req, res, next) => {
-    if (req.hostname === 'biometricbarrier.com') {
-        return domain1Proxy(req, res, next);
-    } else if (req.hostname === 'salonaboutbeauty.com') {
-        return domain2Proxy(req, res, next);
-    }
-    next(); // Continue in middleware chain, potentially to a 404 or other handler
-});
+app.use(domain1Proxy);
+app.use(domain2Proxy);
 
 // Default route for unmatched domains
 app.get('*', (req, res) => {
